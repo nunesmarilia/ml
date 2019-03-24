@@ -2,7 +2,6 @@ package com.exame.marilia.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity(name="dnas")
@@ -11,12 +10,23 @@ public class Simian {
 	@Column(name="dna")
 	private String dna;
 
+	@Column(name="simian")
+	private boolean simian;
+
 	public String getDna() {
 		return dna;
 	}
 
 	public void setDna(String dna) {
 		this.dna = dna;
+	}
+
+	public boolean isSimian() {
+		return simian;
+	}
+
+	public void setSimian(boolean simian) {
+		this.simian = simian;
 	}
 
 	@Override
