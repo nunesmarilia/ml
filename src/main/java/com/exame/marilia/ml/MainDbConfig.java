@@ -1,5 +1,6 @@
 package com.exame.marilia.ml;
 
+import java.io.Serializable;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,9 +30,9 @@ import org.springframework.web.client.RestTemplate;
 @EnableTransactionManagement
 @EnableJpaRepositories(
 		entityManagerFactoryRef = "entityManagerFactory",
-		basePackages = {"com.exame.marilia.ml"}
+		basePackages = {"com.exame.marilia"}
 )
-public class MainDbConfig {
+public class MainDbConfig  implements Serializable {
 
 	@Autowired
 	private Environment env;
@@ -58,7 +58,7 @@ public class MainDbConfig {
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		HashMap<String, String> properties = new HashMap<>();
-		properties.put("hibernate.hbm2ddl.auto", "update");
+		properties.put("hibernate.hbm2ddl.auto", "create");
 		properties.put("hibernate.show.sql", "true");
 		em.setJpaPropertyMap(properties);
 		return em;

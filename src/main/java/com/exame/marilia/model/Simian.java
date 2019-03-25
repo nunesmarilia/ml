@@ -1,10 +1,10 @@
 package com.exame.marilia.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Objects;
 
-@Entity(name="dnas")
+@Entity
+@Table(name = "dnas")
 public class Simian {
 
 	@Column(name="dna")

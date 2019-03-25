@@ -1,34 +1,62 @@
 package com.exame.marilia.ml;
 
+import com.exame.marilia.dto.StatDTO;
 import com.exame.marilia.model.Simian;
+import com.exame.marilia.service.ISimianService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
 
 @RestController
 public class SimianRestController {
 
+	@Resource
+	private ISimianService simianService;
+
 	@PostMapping("/simian")
 	public Response.Status simian(@RequestBody Simian simian) {
-		System.out.println("Eita");
-
 		String[][] dna  = {};
 
-//		boolean valid   = this.isSimian(simian.getDna());
+		// Falta transformar array com dna recebido
+		boolean validSimian   = this.isSimian(dna);
 
-		return Response.Status.OK;
+		try {
+			// Validação dos dados da matriz de DNA
+			this.validCharacterDNA(simian.getDna());
+
+			simian.setSimian(validSimian);
+			simianService.save(simian);
+
+			return Response.Status.OK;
+
+		}catch (Exception e){
+			return Response.Status.FORBIDDEN;
+		}
 	}
 
-	// Varrear todas as posições pra ver se tem somente (A, T, C, G),
+	// Varrear todas as posições pra ver se tem somente (A, T, C, G)
+	public void validCharacterDNA(String[] array) throws Exception{
 
-	/*
+		for (int i = 0; i < array.length; i++) {
+			if ( !(array[i] == "A" ||
+					array[i] == "T" ||
+					array[i] == "C" ||
+					array[i] == "G") ){
+				throw new Exception();
+			}
+		}
+	}
+
 	@GetMapping("/stats")
-	Simian one(@PathVariable Long id) {
+	StatDTO countResults(){
+		try{
+			return simianService.countResults();
 
-		return repository.findById(id)
-				.orElseThrow(() -> new EmployeeNotFoundException(id));
+		}catch (Exception e){
+			return null;
+		}
 	}
-	*/
 
 	private boolean isSimian (String[][] dna){
 			boolean dna_s = false;
@@ -75,11 +103,8 @@ public class SimianRestController {
 						}
 
 						if (count >= 3) {
-
 							dna_s = true;
-
 							System.out.println("Analise vertical");
-
 							break inicio;
 						}
 					}
@@ -98,96 +123,49 @@ public class SimianRestController {
 
 						if (dna[a_l][a_c] == componente) {
 							count++;
-
 						} else {
 							count = 0;
 							break;
 						}
 
-
-
 						if (count >= 3) {
-
 							dna_s = true;
-
 							System.out.println("Diagonal +L +C");
-
 							break inicio;
-
 						}
 
-
-
 						a_l++;
-
 					}
 
-
-
 					// Diagonal +L -C
-
 					count = 0;
-
 					a_l = index_lin + 1;
 
 					for (int a_c = index_col - 1; a_c >= 0; a_c--) {
-
 						// Para evitar o estoro do array
-
 						if (a_l >= dna.length) {
-
 							break;
-
 						}
 
-
-
 						if (dna[a_l][a_c] == componente) {
-
 							count += 1;
 
 						} else {
-
 							count = 0;
-
 							break;
-
 						}
 
-
-
 						if (count >= 3) {
-
 							dna_s = true;
-
 							System.out.println("Diagonal +L -C");
-
 							break inicio;
-
 						}
 
 						a_l++;
-
 					}
-
-
-
 				}
-
 			}
 
 			return dna_s;
-		}
-
-		public static boolean validValues(String value, char letter){
-			char[] array = value.toCharArray();
-
-			for (int i = 0; i < array.length; i++) {
-				if (array[i] == letter) {
-					return true;
-				}
-			}
-
-			return false;
 		}
 }
