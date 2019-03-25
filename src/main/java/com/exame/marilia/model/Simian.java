@@ -8,16 +8,16 @@ import java.util.Objects;
 public class Simian {
 
 	@Column(name="dna")
-	private String dna;
+	private String[] dna;
 
 	@Column(name="simian")
 	private boolean simian;
 
-	public String getDna() {
+	public String[] getDna() {
 		return dna;
 	}
 
-	public void setDna(String dna) {
+	public void setDna(String[] dna) {
 		this.dna = dna;
 	}
 

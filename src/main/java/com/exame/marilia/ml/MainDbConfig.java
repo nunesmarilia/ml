@@ -1,5 +1,8 @@
 package com.exame.marilia.ml;
 
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import javax.persistence.EntityManagerFactory;
@@ -14,12 +17,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableTransactionManagement
@@ -65,4 +70,30 @@ public class MainDbConfig {
 			@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
 		return new JpaTransactionManager(entityManagerFactory);
 	}
+/*
+	@Bean
+	public RestTemplate getRestTemplate() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException {
+		SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(
+				new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build(),
+				NoopHostnameVerifier.INSTANCE);
+
+		Registry<ConnectionSocketFactory> registry = RegistryBuilder.<ConnectionSocketFactory>create()
+				.register("http", new PlainConnectionSocketFactory()).register("https", sslConnectionSocketFactory)
+				.build();
+
+		PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(registry);
+		cm.setMaxTotal(100);
+
+		SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
+				new SSLContextBuilder().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build());
+
+		HttpClientBuilder httpClientBuilder = HttpClients.custom().setSSLSocketFactory(socketFactory).setConnectionManager(cm);
+
+		CloseableHttpClient httpClient = httpClientBuilder.build();
+
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+		requestFactory.setHttpClient(httpClient);
+
+		return new RestTemplate(requestFactory);
+	}*/
 }

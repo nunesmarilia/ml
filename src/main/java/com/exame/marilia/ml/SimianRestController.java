@@ -1,27 +1,22 @@
-package com.exame.marilia.REST;
+package com.exame.marilia.ml;
 
 import com.exame.marilia.model.Simian;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import javax.ws.rs.core.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
+import javax.ws.rs.core.Response;
 
-@Controller
-@CrossOrigin(origins = "*")
-@RequestMapping("/simian")
-public class SimianRest implements Serializable {
+@RestController
+public class SimianRestController {
 
-	private static final transient Logger LOG = LoggerFactory.getLogger(SimianRest.class);
-
-	@RequestMapping(value="/", method=RequestMethod.POST, produces= MediaType.APPLICATION_JSON)
-	void simian() {
+	@PostMapping("/simian")
+	public Response.Status simian(@RequestBody Simian simian) {
 		System.out.println("Eita");
-		//System.out.println(this.isSimian(dna));
 
-		// return Response.status( Status.OK ).build();
+		String[][] dna  = {};
+
+//		boolean valid   = this.isSimian(simian.getDna());
+
+		return Response.Status.OK;
 	}
 
 	// Varrear todas as posições pra ver se tem somente (A, T, C, G),
@@ -40,11 +35,9 @@ public class SimianRest implements Serializable {
 
 			inicio:
 			for (int index_lin = 0; index_lin < dna.length; index_lin++) {
-
 				String[] linha = dna[index_lin];
 
 				for (int index_col = 0; index_col < linha.length; index_col++) {
-
 					String componente = linha[index_col];
 
 					// Analise horizontal
@@ -88,15 +81,10 @@ public class SimianRest implements Serializable {
 							System.out.println("Analise vertical");
 
 							break inicio;
-
 						}
-
 					}
 
-
-
 					// Diagonal +L +C
-
 					count = 0;
 
 					int a_l = index_lin + 1;
@@ -104,25 +92,16 @@ public class SimianRest implements Serializable {
 					for (int a_c = index_col + 1; a_c < linha.length; a_c++) {
 
 						// Para evitar o estoro do array
-
 						if (a_l >= dna.length) {
-
 							continue;
-
 						}
 
-
-
 						if (dna[a_l][a_c] == componente) {
-
 							count++;
 
 						} else {
-
 							count = 0;
-
 							break;
-
 						}
 
 
@@ -198,5 +177,17 @@ public class SimianRest implements Serializable {
 			}
 
 			return dna_s;
+		}
+
+		public static boolean validValues(String value, char letter){
+			char[] array = value.toCharArray();
+
+			for (int i = 0; i < array.length; i++) {
+				if (array[i] == letter) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 }

@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class SimianTest {
 
 	@Test
-	public void createStudentCourse() throws Exception {
+	public void validSimian() throws Exception {
 /*		Course mockCourse = new Course("1", "Smallest Number", "1", Arrays.asList("1", "2", "3", "4"));
 
 		String [] dna = {"CTGAGA", "CTGAGC", "TATTGT", "AGAGGG", "CCCCTA", "TCACTG"};
