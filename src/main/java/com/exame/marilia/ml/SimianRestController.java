@@ -1,14 +1,10 @@
 package com.exame.marilia.ml;
 
-import com.exame.marilia.ml.dto.StatDTO;
 import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -23,11 +19,11 @@ public class SimianRestController {
 
 	@PostMapping("/simian")
 	public ResponseEntity<String> simian(@RequestBody Simian simian) {
-		boolean validSimian   = this.isSimian(simian.getDna());
-
 		try {
 			// Validação dos dados da matriz de DNA
 			this.validCharacterDNA(simian.getDna());
+
+			boolean validSimian   = this.isSimian(simian.getDna());
 
 			simian.setSimian(validSimian);
 			simianService.save(simian);
