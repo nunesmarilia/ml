@@ -3,6 +3,8 @@ package com.exame.marilia.ml;
 import com.exame.marilia.ml.dto.StatDTO;
 import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.*;
@@ -20,7 +22,7 @@ public class SimianRestController {
 	}
 
 	@PostMapping("/simian")
-	public Response simian(@RequestBody Simian simian) {
+	public ResponseEntity<String> simian(@RequestBody Simian simian) {
 		boolean validSimian   = this.isSimian(simian.getDna());
 
 		try {
@@ -31,12 +33,12 @@ public class SimianRestController {
 			simianService.save(simian);
 
 			if( validSimian )
-				return Response.status(Response.Status.OK).entity("HTTP 200-OK").build();
+				return new ResponseEntity<>("HTTP 200-OK", HttpStatus.OK);
 			else
-				return Response.status(Response.Status.FORBIDDEN).entity("HTTP 403-FORBIDDEN").build();
+				return new ResponseEntity<>("HTTP 403-FORBIDDEN", HttpStatus.FORBIDDEN);
 
 		}catch (Exception e){
-			return Response.status(Response.Status.FORBIDDEN).entity("HTTP 403-FORBIDDEN").build();
+			return new ResponseEntity<>("HTTP 403-FORBIDDEN", HttpStatus.FORBIDDEN);
 		}
 	}
 
