@@ -6,25 +6,26 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "dnas")
+
 public class Simian {
 
 	@Id
 	@GeneratedValue
 	@Column(name="id")
-	private int id;
+	private Integer id;
 
 	@ElementCollection
-	@CollectionTable(name = "data")
+	@CollectionTable(name = "listDna")
 	private List<String> dna;
 
 	@Column(name="simian")
 	private boolean simian;
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -49,11 +50,11 @@ public class Simian {
 		if (this == o) return true;
 		if (!(o instanceof Simian)) return false;
 		Simian simian = (Simian) o;
-		return Objects.equals(dna, simian.dna);
+		return id == simian.id;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dna);
+		return Objects.hash(id);
 	}
 }

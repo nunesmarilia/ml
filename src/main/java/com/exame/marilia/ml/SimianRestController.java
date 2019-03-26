@@ -5,7 +5,9 @@ import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
 import java.util.List;
 
 @RestController
@@ -18,32 +20,49 @@ public class SimianRestController {
 	}
 
 	@PostMapping("/simian")
-	public Response.Status simian(@RequestBody Simian simian) {
+	public Response simian(@RequestBody Simian simian) {
 		boolean validSimian   = this.isSimian(simian.getDna());
 
 		try {
 			// Validação dos dados da matriz de DNA
-			///this.validCharacterDNA(simian.getDna());
+			this.validCharacterDNA(simian.getDna());
 
 			simian.setSimian(validSimian);
 			simianService.save(simian);
 
-			return Response.Status.OK;
+			if( validSimian )
+				return Response.status(Response.Status.OK).entity("HTTP 200-OK").build();
+			else
+				return Response.status(Response.Status.FORBIDDEN).entity("HTTP 403-FORBIDDEN").build();
 
 		}catch (Exception e){
-			return Response.Status.FORBIDDEN;
+			return Response.status(Response.Status.FORBIDDEN).entity("HTTP 403-FORBIDDEN").build();
 		}
 	}
 
 	// Varrear todas as posições pra ver se tem somente (A, T, C, G)
-	public void validCharacterDNA(String[] array) throws Exception{
+	public void validCharacterDNA(List<String> listDna) throws Exception{
+		for(String objLinha: listDna){
 
-		for (int i = 0; i < array.length; i++) {
-			if ( !(array[i] == "A" ||
-					array[i] == "T" ||
-					array[i] == "C" ||
-					array[i] == "G") ){
-				throw new Exception();
+			for (int index_col = 0; index_col < objLinha.length(); index_col++) {
+				String componente = objLinha.substring(index_col, index_col + 1);
+
+				switch (componente){
+					case "A" :
+						break;
+
+					case "T" :
+						break;
+
+					case "C" :
+						break;
+
+					case "G" :
+						break;
+
+					default:
+						throw new Exception();
+				}
 			}
 		}
 	}
@@ -74,38 +93,33 @@ public class SimianRestController {
 
 					for (int a_c = index_col + 1; a_c < linha.length(); a_c++) {
 
-						if (linha.substring(a_c,a_c+1) == componente) {
+						if(linha.substring(a_c,a_c+1).equals(componente)) {
 							count++;
 
 						} else {
-							count = 0;
 							break;
 						}
 
 						if (count >= 3) {
 							dna_s = true;
-							System.out.println("Analise horizontal");
 							break inicio;
 						}
 					}
 
 					// Analise vertical
-
 					count = 0;
 
 					for (int a_l = index_lin + 1; a_l < dna.size(); a_l++) {
 
-						if (dna.get(a_l).substring(index_col,index_col+1) == componente) {
+						if (dna.get(a_l).substring(index_col,index_col+1).equals(componente)) {
 							count++;
 
 						} else {
-							count = 0;
 							break;
 						}
 
 						if (count >= 3) {
 							dna_s = true;
-							System.out.println("Analise vertical");
 							break inicio;
 						}
 					}
@@ -122,16 +136,14 @@ public class SimianRestController {
 							continue;
 						}
 
-						if (dna.get(a_l).substring(a_c,a_c+1) == componente) {
+						if (dna.get(a_l).substring(a_c,a_c+1).equals(componente)) {
 							count++;
 						} else {
-							count = 0;
 							break;
 						}
 
 						if (count >= 3) {
 							dna_s = true;
-							System.out.println("Diagonal +L +C");
 							break inicio;
 						}
 
@@ -148,17 +160,15 @@ public class SimianRestController {
 							break;
 						}
 
-						if (dna.get(a_l).substring(a_c, a_c) == componente) {
+						if (dna.get(a_l).substring(a_c, a_c).equals(componente)) {
 							count += 1;
 
 						} else {
-							count = 0;
 							break;
 						}
 
 						if (count >= 3) {
 							dna_s = true;
-							System.out.println("Diagonal +L -C");
 							break inicio;
 						}
 
