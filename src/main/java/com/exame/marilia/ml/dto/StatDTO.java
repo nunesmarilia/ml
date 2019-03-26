@@ -1,4 +1,4 @@
-package com.exame.marilia.dto;
+package com.exame.marilia.ml.dto;
 
 public class StatDTO {
 	private int count_mutant_dna;

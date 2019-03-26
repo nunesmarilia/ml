@@ -1,23 +1,38 @@
-package com.exame.marilia.model;
+package com.exame.marilia.ml.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "dnas")
 public class Simian {
 
-	@Column(name="dna")
-	private String[] dna;
+	@Id
+	@GeneratedValue
+	@Column(name="id")
+	private int id;
+
+	@ElementCollection
+	@CollectionTable(name = "data")
+	private List<String> dna;
 
 	@Column(name="simian")
 	private boolean simian;
 
-	public String[] getDna() {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<String> getDna() {
 		return dna;
 	}
 
-	public void setDna(String[] dna) {
+	public void setDna(List<String> dna) {
 		this.dna = dna;
 	}
 

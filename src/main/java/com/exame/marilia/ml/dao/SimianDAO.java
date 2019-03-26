@@ -1,20 +1,20 @@
-package com.exame.marilia.dao.impl;
+package com.exame.marilia.ml.dao;
 
-import com.exame.marilia.dao.ISimianDAO;
-import com.exame.marilia.dto.StatDTO;
-import org.hibernate.Session;
-import com.exame.marilia.model.Simian;
-import org.hibernate.transform.Transformers;
+import com.exame.marilia.ml.model.Simian;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository	
-public interface SimianDAO implements ISimianDAO {
-	
-	@Override
-	void save(Simian entity){
-		this.entityManager.persist(entity);
-	}
+public interface SimianDAO extends CrudRepository<Simian, Integer> {
 
+	/*@Query("select isnull(sum(case when simian = 1 then 1 else 0 end),0) count_mutant_dna, "+
+			"    isnull(sum(case when simian = 0 then 1 else 0 end),0) count_human_dna, "+
+			"    case when isnull(sum(case when simian = 0 then 1 else 0 end), 0) = 0 then 0 else "+
+			"    round(((sum(case when simian = 1 then 1 else 0 end)*100)/sum(case when simian = 0 then 1 else 0 end)),2) end ratio((sum(case when simian = 1 then 1 else 0 end)*100)/sum(case when simian = 0 then 1 else 0 end)) ratio "+
+			" from dnas ")
+	Object countResults();*/
+/*
 	@Override
 	StatDTO countResults(){
 		Session session = (Session)entityManager.getDelegate();
@@ -40,4 +40,5 @@ public interface SimianDAO implements ISimianDAO {
 
 		return query.getResultList().size()>0;
 	}
+*/
 }

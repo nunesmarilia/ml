@@ -30,7 +30,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableTransactionManagement
 @EnableJpaRepositories(
 		entityManagerFactoryRef = "entityManagerFactory",
-		basePackages = {"com.exame.marilia"}
+		basePackages = {"com.exame.marilia.ml"}
 )
 public class MainDbConfig  implements Serializable {
 
@@ -54,11 +54,11 @@ public class MainDbConfig  implements Serializable {
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
 	                                                                   @Qualifier("dataSource") DataSource dataSource) {
-		LocalContainerEntityManagerFactoryBean em = builder.dataSource(dataSource).packages("br.com.flexvision.service.main").persistenceUnit("spring").build();
+		LocalContainerEntityManagerFactoryBean em = builder.dataSource(dataSource).packages("com.exame.marilia.ml").persistenceUnit("spring").build();
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
 		HashMap<String, String> properties = new HashMap<>();
-		properties.put("hibernate.hbm2ddl.auto", "create");
+		properties.put("hibernate.hbm2ddl.auto", "update");
 		properties.put("hibernate.show.sql", "true");
 		em.setJpaPropertyMap(properties);
 		return em;

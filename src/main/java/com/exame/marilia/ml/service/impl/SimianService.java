@@ -1,11 +1,10 @@
-package com.exame.marilia.service.impl;
+package com.exame.marilia.ml.service.impl;
 
 import javax.annotation.Resource;
 
-import com.exame.marilia.dao.ISimianDAO;
-import com.exame.marilia.dto.StatDTO;
-import com.exame.marilia.model.Simian;
-import com.exame.marilia.service.ISimianService;
+import com.exame.marilia.ml.dao.SimianDAO;
+import com.exame.marilia.ml.model.Simian;
+import com.exame.marilia.ml.service.ISimianService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,7 @@ public class SimianService implements ISimianService {
 	private static final long serialVersionUID = -7676073575849665613L;
 	
 	@Resource
-	ISimianDAO dao;
+	SimianDAO dao;
 	
 	/**************************************************************/
 	/****************** PERSISTÊNCIA DE DADOS *********************/
@@ -34,9 +33,9 @@ public class SimianService implements ISimianService {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void save(Simian entity) throws Exception{
 		try {
-			if( !this.validateSimian(entity) ) {
+		//	if( !this.validateSimian(entity) ) {
 				dao.save(entity);
-			}
+		//	}
 
 		}catch (Exception e) {
 			throw e;
@@ -46,7 +45,8 @@ public class SimianService implements ISimianService {
 	/**************************************************************/
 	/************************ CONSULTAS ***************************/
 	/**************************************************************/
-	
+
+	/*
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
 	public StatDTO countResults() throws Exception{
@@ -57,14 +57,15 @@ public class SimianService implements ISimianService {
 			throw e;
 		}
 	}
-
+*/
 	/**************************************************************/
 	/************************ VALIDAÇÕES **************************/
 	/**************************************************************/
 
-
+/*
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
 	boolean validateSimian(Simian entity){
 		return dao.hasDNA(entity);
 	}
+	*/
 }

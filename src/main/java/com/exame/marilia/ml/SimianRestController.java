@@ -1,29 +1,29 @@
 package com.exame.marilia.ml;
 
-import com.exame.marilia.dto.StatDTO;
-import com.exame.marilia.model.Simian;
-import com.exame.marilia.service.ISimianService;
+import com.exame.marilia.ml.dto.StatDTO;
+import com.exame.marilia.ml.model.Simian;
+import com.exame.marilia.ml.service.ISimianService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @RestController
 public class SimianRestController {
 
-	@Resource
-	private ISimianService simianService;
+	private final ISimianService simianService;
+
+	public SimianRestController(ISimianService simianService){
+		this.simianService = simianService;
+	}
 
 	@PostMapping("/simian")
 	public Response.Status simian(@RequestBody Simian simian) {
-		String[][] dna  = {};
-
-		// Falta transformar array com dna recebido
-		boolean validSimian   = this.isSimian(dna);
+		boolean validSimian   = this.isSimian(simian.getDna());
 
 		try {
 			// Validação dos dados da matriz de DNA
-			this.validCharacterDNA(simian.getDna());
+			///this.validCharacterDNA(simian.getDna());
 
 			simian.setSimian(validSimian);
 			simianService.save(simian);
@@ -48,32 +48,33 @@ public class SimianRestController {
 		}
 	}
 
+	/*
 	@GetMapping("/stats")
 	StatDTO countResults(){
 		try{
-			return simianService.countResults();
+			//return simianService.countResults();
 
 		}catch (Exception e){
 			return null;
 		}
 	}
-
-	private boolean isSimian (String[][] dna){
+*/
+	private boolean isSimian (List<String> dna){
 			boolean dna_s = false;
 
 			inicio:
-			for (int index_lin = 0; index_lin < dna.length; index_lin++) {
-				String[] linha = dna[index_lin];
+			for (int index_lin = 0; index_lin < dna.size(); index_lin++) {
+				String linha = dna.get(index_lin);
 
-				for (int index_col = 0; index_col < linha.length; index_col++) {
-					String componente = linha[index_col];
+				for (int index_col = 0; index_col < linha.length(); index_col++) {
+					String componente = linha.substring(index_col, index_col+1);
 
 					// Analise horizontal
 					int count = 0;
 
-					for (int a_c = index_col + 1; a_c < linha.length; a_c++) {
+					for (int a_c = index_col + 1; a_c < linha.length(); a_c++) {
 
-						if (linha[a_c] == componente) {
+						if (linha.substring(a_c,a_c+1) == componente) {
 							count++;
 
 						} else {
@@ -92,9 +93,9 @@ public class SimianRestController {
 
 					count = 0;
 
-					for (int a_l = index_lin + 1; a_l < dna.length; a_l++) {
+					for (int a_l = index_lin + 1; a_l < dna.size(); a_l++) {
 
-						if (dna[a_l][index_col] == componente) {
+						if (dna.get(a_l).substring(index_col,index_col+1) == componente) {
 							count++;
 
 						} else {
@@ -114,14 +115,14 @@ public class SimianRestController {
 
 					int a_l = index_lin + 1;
 
-					for (int a_c = index_col + 1; a_c < linha.length; a_c++) {
+					for (int a_c = index_col + 1; a_c < linha.length(); a_c++) {
 
 						// Para evitar o estoro do array
-						if (a_l >= dna.length) {
+						if (a_l >= dna.size()) {
 							continue;
 						}
 
-						if (dna[a_l][a_c] == componente) {
+						if (dna.get(a_l).substring(a_c,a_c+1) == componente) {
 							count++;
 						} else {
 							count = 0;
@@ -143,11 +144,11 @@ public class SimianRestController {
 
 					for (int a_c = index_col - 1; a_c >= 0; a_c--) {
 						// Para evitar o estoro do array
-						if (a_l >= dna.length) {
+						if (a_l >= dna.size()) {
 							break;
 						}
 
-						if (dna[a_l][a_c] == componente) {
+						if (dna.get(a_l).substring(a_c, a_c) == componente) {
 							count += 1;
 
 						} else {
