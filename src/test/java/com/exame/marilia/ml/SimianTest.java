@@ -78,4 +78,62 @@ public class SimianTest extends MlApplicationTests {
 			Assert.assertEquals(403, e.getRawStatusCode());
 		}
 	}
+
+	@Test
+	public void testValidSimianSuccess() throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+
+		final String baseUrl = "http://localhost:9001/ml/simian";
+		URI uri = new URI(baseUrl);
+
+		Simian simian = new Simian();
+
+		HttpHeaders headers = new HttpHeaders();
+
+		List<String> dnas   = new ArrayList<>();
+		dnas.add("CTGAGA");
+		dnas.add("CTGAGC");
+		dnas.add("TATTGT");
+		dnas.add("AGAGGG");
+		dnas.add("CCCCTA");
+		dnas.add("TCACTG");
+
+		simian.setDna(dnas);
+
+		HttpEntity<Simian> request = new HttpEntity<>(simian, headers);
+
+		ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+		Assert.assertEquals(200, result.getStatusCodeValue());
+	}
+
+	@Test
+	public void testValidArray() throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+
+		final String baseUrl = "http://localhost:9001/ml/simian";
+		URI uri = new URI(baseUrl);
+
+		Simian simian = new Simian();
+
+		HttpHeaders headers = new HttpHeaders();
+
+		List<String> dnas   = new ArrayList<>();
+		dnas.add("MTGAGA");
+		dnas.add("CTATGC");
+		dnas.add("TCTTCT");
+		dnas.add("AGAGGG");
+		dnas.add("CACCTA");
+		dnas.add("TCACTG");
+
+		simian.setDna(dnas);
+
+		HttpEntity<Simian> request = new HttpEntity<>(simian, headers);
+
+		try {
+			ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+
+		} catch(HttpClientErrorException e) {
+			Assert.assertEquals(403, e.getRawStatusCode());
+		}
+	}
 }

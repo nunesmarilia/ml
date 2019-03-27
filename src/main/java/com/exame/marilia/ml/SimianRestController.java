@@ -5,14 +5,16 @@ import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
 import com.exame.marilia.ml.service.IStatService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 @RestController
-@Api(value = "ValidÃ§Ã£o de DNA", description = "Descubra se o DNA Ã© sÃ­mio ou humano ")
+@Api(value = "Validação de DNA", description = "Descubra se o DNA é símio ou humano ")
 public class SimianRestController {
 
 	private final ISimianService simianService;
@@ -23,10 +25,11 @@ public class SimianRestController {
 		this.statService    = statService;
 	}
 
+	@ApiOperation(value = "Analise de DNA simio")
 	@PostMapping("/simian")
 	public ResponseEntity<String> simian(@RequestBody Simian simian) {
 		try {
-			// ValidaÃ§Ã£o dos dados da matriz de DNA
+			// Validação dos dados da matriz de DNA
 			this.validCharacterDNA(simian.getDna());
 
 			boolean validSimian   = this.isSimian(simian.getDna());
@@ -54,7 +57,7 @@ public class SimianRestController {
 		}
 	}
 
-	// Varrear todas as posiÃ§Ãµes pra ver se tem somente (A, T, C, G)
+	// Varrear todas as posições pra ver se tem somente (A, T, C, G)
 	public void validCharacterDNA(List<String> listDna) throws Exception{
 		for(String objLinha: listDna){
 
@@ -81,6 +84,7 @@ public class SimianRestController {
 		}
 	}
 
+	@ApiOperation(value = "DNAs analisados")
 	@GetMapping("/stats")
 	public @ResponseBody StatDTO countResults(){
 		try{

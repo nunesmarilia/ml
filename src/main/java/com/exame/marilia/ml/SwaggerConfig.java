@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	
 	private ApiInfoBuilder infoApi() {
 		ApiInfoBuilder appInfo  = new ApiInfoBuilder().title("Exame ML - Spring Boot REST API");
-		appInfo.description("Descubra se o DNA é símio ou humano ");
+		appInfo.description("Descubra se o DNA e simio ou humano ");
 		appInfo.version("1.0.0");
 
 		return appInfo;
