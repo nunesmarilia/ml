@@ -26,7 +26,7 @@ public class SimianService implements ISimianService {
 	}
 	
 	/**************************************************************/
-	/****************** PERSISTÊNCIA DE DADOS *********************/
+	/****************** PERSISTENCIA DE DADOS *********************/
 	/**************************************************************/
 	@Override
 	public void save(Simian entity) throws Exception{

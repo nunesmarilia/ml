@@ -1,32 +1,46 @@
 package com.exame.marilia.ml;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-public class SimianTest {
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+
+public class SimianTest extends MlApplicationTests {
 
 	@Test
-	public void validSimian() throws Exception {
-/*		Course mockCourse = new Course("1", "Smallest Number", "1", Arrays.asList("1", "2", "3", "4"));
+	public void testResultStatsSuccess() throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
 
-		String [] dna = {"CTGAGA", "CTGAGC", "TATTGT", "AGAGGG", "CCCCTA", "TCACTG"};
+		final String baseUrl = "http://localhost:9001/ml/stats";
+		URI uri = new URI(baseUrl);
 
-		Mockito.when(studentService.addCourse(Mockito.anyString(), Mockito.any(Course.class))).thenReturn(mockCourse);
+		ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/simian")
-				.accept(MediaType.APPLICATION_JSON)
-				.content(exampleCourseJson)
-				.contentType(MediaType.APPLICATION_JSON);
+		Assert.assertEquals(200, result.getStatusCodeValue());
+		Assert.assertEquals(true, result.getBody().contains("count_mutant_dna"));
+	}
 
-		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+	@Test
+	public void testResultStatsFail() throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
 
-		mockMvc.perform(post("/users").contentType(MediaType.APPLICATION_JSON)).content(some_json_data)...
+		final String baseUrl = "http://localhost:9001/ml/stat";
+		URI uri = new URI(baseUrl);
 
+		ResponseEntity<String> result = restTemplate.getForEntity(uri, String.class);
 
-		MockHttpServletResponse response = result.getResponse();
-
-		assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-
-		assertEquals("http://localhost/simian", response.getHeader(HttpHeaders.LOCATION));*/
+		try
+		{
+			restTemplate.postForEntity(uri, result, String.class);
+			Assert.fail();
+		}
+		catch(HttpClientErrorException ex)
+		{
+			Assert.assertEquals(400, ex.getRawStatusCode());
+		}
 	}
 }
