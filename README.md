@@ -1,14 +1,28 @@
-## ml 
+## ML
 
-Projeto do exame Ml de analise do DNA
+Projeto do exame ML de analise do DNA
 
 ## REST API
 
-${host}/cip.ws/swagger-ui.html
+${host}/ml/swagger-ui.html
 
-## Link do build job no Jenkins
+## Validação DNA
 
-http://192.168.80.40:8080/job/cip.ws/
+${host}/ml/simian
 
-## Build manual
+* Passar Json 
+{
+"dna": ["ATGCGA", "CAGTGC", "TTATGT", "AGAAGG", "CCCCTA", "TCACTG"]
+}
 
+## Contabilização DNA
+
+${host}/ml/stats
+
+## Build manual com Testes
+
+`mvn install -Dmaven.test.skip=false`
+
+## Build manual sem Testes
+
+`mvn install -Dmaven.test.skip=true`

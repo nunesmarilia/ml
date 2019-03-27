@@ -4,6 +4,7 @@ import com.exame.marilia.ml.dto.StatDTO;
 import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
 import com.exame.marilia.ml.service.IStatService;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Api(value = "Validção de DNA", description = "Descubra se o DNA é símio ou humano ")
 public class SimianRestController {
 
 	private final ISimianService simianService;

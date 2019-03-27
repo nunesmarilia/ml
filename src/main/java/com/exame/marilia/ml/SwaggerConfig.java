@@ -1,4 +1,4 @@
-package com.exame.marilia;
+package com.exame.marilia.ml;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,27 +14,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
 	@Bean
-	public Docket detalheApi() {
+	public Docket detailApi() {
 		Docket docket = new Docket(DocumentationType.SWAGGER_2);
 
 		docket
 		.select()
-		.apis(RequestHandlerSelectors.basePackage("com.exame.marilia"))
+		.apis(RequestHandlerSelectors.basePackage("com.exame.marilia.ml"))
 		.paths(PathSelectors.any())
 		.build()
-		.apiInfo(this.informacoesApi().build());
+		.apiInfo(this.infoApi().build());
 
 		return docket;
 	}
 	
-	private ApiInfoBuilder informacoesApi() {
-		ApiInfoBuilder apiInfoBuilder = new ApiInfoBuilder();
-		/*
-		apiInfoBuilder
-		.title(Translator.toLocale("api.swagger.title"))
-		.description(Translator.toLocale("api.swagger.description"))
-		.version(Translator.toLocale("api.swagger.version"));
-		*/
-		return apiInfoBuilder;
+	private ApiInfoBuilder infoApi() {
+		ApiInfoBuilder appInfo  = new ApiInfoBuilder().title("Exame ML - Spring Boot REST API");
+		appInfo.description("Descubra se o DNA é símio ou humano ");
+		appInfo.version("1.0.0");
+
+		return appInfo;
 	}
 }
