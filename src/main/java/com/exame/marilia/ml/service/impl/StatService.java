@@ -20,6 +20,9 @@ public class StatService implements IStatService {
 	/**************************************************************/
 	private final IStatDAO dao;
 
+	/**
+	 * @param dao
+	 */
 	public StatService(IStatDAO dao){
 		this.dao  = dao;
 	}

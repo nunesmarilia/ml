@@ -27,33 +27,34 @@ public class SimianRestController {
 	@ApiOperation(value = "Analise de DNA simio")
 	@PostMapping("/simian")
 	public ResponseEntity<String> simian(@RequestBody Simian simian) {
+		boolean validSimian;
+
 		try {
 			// Validação dos dados da matriz de DNA
 			this.validCharacterDNA(simian.getDna());
 
-			boolean validSimian   = this.isSimian(simian.getDna());
+			validSimian   = this.isSimian(simian.getDna());
 
-			String strId    = "";
+			StringBuilder strId    = new StringBuilder();
 
 			for(String objLinha: simian.getDna()){
-				strId+="-"+objLinha;
+				strId.append("-").append(objLinha);
 			}
 
 			if( strId.length() > 0 )
-				strId   = strId.substring(1, strId.length());
+				simian.setKeyDna(strId.toString().substring(1));
 
-			simian.setId(strId);
 			simian.setSimian(validSimian);
 			simianService.save(simian);
-
-			if( validSimian )
-				return new ResponseEntity<>("HTTP 200-OK", HttpStatus.OK);
-			else
-				return new ResponseEntity<>("HTTP 403-FORBIDDEN", HttpStatus.FORBIDDEN);
 
 		}catch (Exception e){
 			return new ResponseEntity<>("HTTP 403-FORBIDDEN", HttpStatus.FORBIDDEN);
 		}
+
+		if( validSimian )
+			return new ResponseEntity<>("HTTP 200-OK", HttpStatus.OK);
+		else
+			return new ResponseEntity<>("HTTP 403-FORBIDDEN", HttpStatus.FORBIDDEN);
 	}
 
 	// Varrear todas as posições pra ver se tem somente (A, T, C, G)
@@ -85,7 +86,7 @@ public class SimianRestController {
 
 	@ApiOperation(value = "DNAs analisados")
 	@GetMapping("/stats")
-	public @ResponseBody StatDTO countResults(){
+	public StatDTO countResults(){
 		try{
 			return statService.countResults();
 

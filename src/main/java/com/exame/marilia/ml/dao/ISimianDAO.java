@@ -4,6 +4,9 @@ import com.exame.marilia.ml.model.Simian;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository	
+/**
+ * Autor: Marilia Alves
+ */
+@Repository
 public interface ISimianDAO extends CrudRepository<Simian, String> {
 }

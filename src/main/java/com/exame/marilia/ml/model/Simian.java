@@ -1,6 +1,7 @@
 package com.exame.marilia.ml.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
@@ -12,11 +13,17 @@ import java.util.Objects;
 		@ColumnResult(name="count_human_dna", type= BigDecimal.class),
 		@ColumnResult(name="ratio", type= BigDecimal.class)
 })})
-public class Simian {
+public class Simian implements Serializable {
+
+	private static final long serialVersionUID = -4042023941980758267L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
-	private String id;
+	private int id;
+
+	@Column(name="dna", unique = true)
+	private String keyDna;
 
 	@Transient
 	private List<String> dna;
@@ -24,12 +31,20 @@ public class Simian {
 	@Column(name="simian")
 	private boolean simian;
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getKeyDna() {
+		return keyDna;
+	}
+
+	public void setKeyDna(String keyDna) {
+		this.keyDna = keyDna;
 	}
 
 	public List<String> getDna() {
