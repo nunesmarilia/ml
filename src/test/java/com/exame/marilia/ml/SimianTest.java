@@ -1,7 +1,6 @@
 package com.exame.marilia.ml;
 
 import com.exame.marilia.ml.model.Simian;
-import javassist.bytecode.stackmap.BasicBlock;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -72,7 +71,7 @@ public class SimianTest extends MlApplicationTests {
 		HttpEntity<Simian> request = new HttpEntity<>(simian, headers);
 
 		try {
-			ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+			restTemplate.postForEntity(uri, request, String.class);
 
 		} catch(HttpClientErrorException e) {
 			Assert.assertEquals(403, e.getRawStatusCode());
@@ -130,7 +129,7 @@ public class SimianTest extends MlApplicationTests {
 		HttpEntity<Simian> request = new HttpEntity<>(simian, headers);
 
 		try {
-			ResponseEntity<String> result = restTemplate.postForEntity(uri, request, String.class);
+			restTemplate.postForEntity(uri, request, String.class);
 
 		} catch(HttpClientErrorException e) {
 			Assert.assertEquals(403, e.getRawStatusCode());
