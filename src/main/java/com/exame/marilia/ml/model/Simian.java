@@ -1,31 +1,34 @@
 package com.exame.marilia.ml.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "dnas")
-
+@SqlResultSetMapping(name="countResultSimian", classes={@ConstructorResult(targetClass=com.exame.marilia.ml.dto.StatDTO.class, columns={
+		@ColumnResult(name="count_mutant_dna", type= BigDecimal.class),
+		@ColumnResult(name="count_human_dna", type= BigDecimal.class),
+		@ColumnResult(name="ratio", type= BigDecimal.class)
+})})
 public class Simian {
 
 	@Id
-	@GeneratedValue
 	@Column(name="id")
-	private Integer id;
+	private String id;
 
-	@ElementCollection
-	@CollectionTable(name = "listDna")
+	@Transient
 	private List<String> dna;
 
 	@Column(name="simian")
 	private boolean simian;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -50,7 +53,7 @@ public class Simian {
 		if (this == o) return true;
 		if (!(o instanceof Simian)) return false;
 		Simian simian = (Simian) o;
-		return id == simian.id;
+		return Objects.equals(id, simian.id);
 	}
 
 	@Override

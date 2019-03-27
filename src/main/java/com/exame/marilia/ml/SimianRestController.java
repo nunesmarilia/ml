@@ -1,7 +1,9 @@
 package com.exame.marilia.ml;
 
+import com.exame.marilia.ml.dto.StatDTO;
 import com.exame.marilia.ml.model.Simian;
 import com.exame.marilia.ml.service.ISimianService;
+import com.exame.marilia.ml.service.IStatService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +14,11 @@ import java.util.List;
 public class SimianRestController {
 
 	private final ISimianService simianService;
+	private final IStatService statService;
 
-	public SimianRestController(ISimianService simianService){
-		this.simianService = simianService;
+	public SimianRestController(ISimianService simianService, IStatService statService){
+		this.simianService  = simianService;
+		this.statService    = statService;
 	}
 
 	@PostMapping("/simian")
@@ -25,6 +29,16 @@ public class SimianRestController {
 
 			boolean validSimian   = this.isSimian(simian.getDna());
 
+			String strId    = "";
+
+			for(String objLinha: simian.getDna()){
+				strId+="-"+objLinha;
+			}
+
+			if( strId.length() > 0 )
+				strId   = strId.substring(1, strId.length());
+
+			simian.setId(strId);
 			simian.setSimian(validSimian);
 			simianService.save(simian);
 
@@ -65,17 +79,16 @@ public class SimianRestController {
 		}
 	}
 
-	/*
 	@GetMapping("/stats")
-	StatDTO countResults(){
+	public @ResponseBody StatDTO countResults(){
 		try{
-			//return simianService.countResults();
+			return statService.countResults();
 
 		}catch (Exception e){
 			return null;
 		}
 	}
-*/
+
 	private boolean isSimian (List<String> dna){
 			boolean dna_s = false;
 
