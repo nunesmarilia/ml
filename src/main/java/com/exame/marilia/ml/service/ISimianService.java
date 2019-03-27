@@ -10,7 +10,6 @@ public interface ISimianService {
 	
 	/**
 	 * @param entity
-	 * @throws Exception
 	 */
-	void save(Simian entity) throws Exception;
+	void save(Simian entity);
 }

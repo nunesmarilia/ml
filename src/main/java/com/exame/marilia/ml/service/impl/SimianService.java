@@ -29,11 +29,7 @@ public class SimianService implements ISimianService {
 	/****************** PERSISTENCIA DE DADOS *********************/
 	/**************************************************************/
 	@Override
-	public void save(Simian entity) throws Exception{
-		try {
-				dao.save(entity);
-		}catch (Exception e) {
-			throw e;
-		}
+	public void save(Simian entity){
+		dao.save(entity);
 	}
 }

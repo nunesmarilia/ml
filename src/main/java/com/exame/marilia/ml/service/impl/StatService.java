@@ -31,11 +31,6 @@ public class StatService implements IStatService {
 	@Override
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = Exception.class)
 	public StatDTO countResults() throws Exception{
-		try {
-			return dao.countResults();
-
-		} catch (Exception e) {
-			throw e;
-		}
+		return dao.countResults();
 	}
 }
