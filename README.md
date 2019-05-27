@@ -4,11 +4,13 @@ Projeto do exame ML de analise do DNA
 
 ## REST API
 
-${host}/ml/swagger-ui.html
+http://18.191.94.71:9001/ml/swagger-ui.html
 
 ## Validação DNA
 
-${host}/ml/simian
+http://18.191.94.71:9001/ml/simian 
+
+http://18.191.94.71:9001/ml/stats
 
 * Passar Json 
 {
