@@ -1,16 +1,16 @@
 ## ML
 
-Projeto do exame ML de analise do DNA
+Projeto do teste de analise do DNA
 
 ## REST API
 
-http://18.191.94.71:9001/ml/swagger-ui.html
+http://x:9001/ml/swagger-ui.html
 
 ## Validação DNA
 
-http://18.191.94.71:9001/ml/simian 
+http://x:9001/ml/simian 
 
-http://18.191.94.71:9001/ml/stats
+http://x:9001/ml/stats
 
 * Passar Json 
 {
